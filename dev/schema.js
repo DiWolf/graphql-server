@@ -104,7 +104,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    obtenerUsuario(token: String!): Usuario
+    obtenerUsuario: Usuario
 
     #producto
     #retorna un arreglo de productos

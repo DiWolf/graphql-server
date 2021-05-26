@@ -13,9 +13,10 @@ const crearToken = (Usuario, secreta, expiresIn) => {
 };
 const resolvers = {
   Query: {
-    obtenerUsuario: async (_, { token }) => {
-      const usuarioId = await jwt.verify(token, process.env.SECRETA);
-      return usuarioId;
+    obtenerUsuario: async (_, {}, ctx) => {
+      // const usuarioId = await jwt.verify(token, process.env.SECRETA);
+      // return usuarioId;
+      return ctx;
     },
 
     obtenerProductos: async () => {
