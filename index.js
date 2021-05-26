@@ -16,9 +16,15 @@ const server = new ApolloServer({
   context: ({ req }) => {
     // console.log(req.headers["authorization"]);
     const token = req.headers["authorization"] || "";
+ //   console.log(token);
     if (token) {
       try {
-        const usuario = jwt.verify(token, process.env.SECRETA);
+        const usuario = jwt.verify(
+          token.replace("Bearer ", ""),
+          process.env.SECRETA
+        );
+
+      //  console.log(usuario);
         return { usuario };
       } catch (error) {
         throw new Error("Error " + error);
@@ -31,6 +37,6 @@ const server = new ApolloServer({
 });
 
 //Arrancar el servidor
-server.listen({port: process.env.PORT}).then(({ url }) => {
+server.listen({ port: process.env.PORT }).then(({ url }) => {
   console.log(`Servidor listo en la URL ${url}`);
 });

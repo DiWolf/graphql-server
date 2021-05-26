@@ -16,7 +16,8 @@ const resolvers = {
     obtenerUsuario: async (_, {}, ctx) => {
       // const usuarioId = await jwt.verify(token, process.env.SECRETA);
       // return usuarioId;
-      return ctx;
+     // console.log(ctx);
+      return ctx.usuario;
     },
 
     obtenerProductos: async () => {
