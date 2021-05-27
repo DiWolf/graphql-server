@@ -16,7 +16,7 @@ const resolvers = {
     obtenerUsuario: async (_, {}, ctx) => {
       // const usuarioId = await jwt.verify(token, process.env.SECRETA);
       // return usuarioId;
-     // console.log(ctx);
+      // console.log(ctx);
       return ctx.usuario;
     },
 
@@ -60,14 +60,14 @@ const resolvers = {
       } catch (error) {}
     },
     obtenerCliente: async (_, { id }, ctx) => {
-      if (vendedor.toString() !== ctx.usuario.id) {
-        throw new Error("No tienes las credenciales");
-      }
+      // Revisar si el cliente existe o no
+
       const cliente = await Clientes.findById(id);
+
       if (!cliente) {
         throw new Error("Cliente no encontrado");
       }
-      //quien lo creo puede verlo
+      // //quien lo creo puede verlo
       if (cliente.vendedor.toString() !== ctx.usuario.id) {
         throw new Error("No tienes las credenciales");
       }
