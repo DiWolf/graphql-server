@@ -221,8 +221,8 @@ const resolvers = {
 
     actualizarProducto: async (_, { id, input }, ctx) => {
       try {
-      } catch (error) {
-        const _producto = await producto.findById(id);
+        let _producto = await producto.findById(id);
+       
 
         if (!_producto) {
           throw new Error("El producto no existe");
@@ -230,9 +230,11 @@ const resolvers = {
 
         _producto = await producto.findOneAndUpdate({ _id: id }, input, {
           new: true,
-        });
+         });
 
         return _producto;
+      } catch (error) {
+        console.log(error);
       }
     },
 
