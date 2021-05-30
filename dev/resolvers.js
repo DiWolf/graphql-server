@@ -88,7 +88,8 @@ const resolvers = {
       try {
         const pedidos = await Pedido.find({
           vendedor: ctx.usuario.id,
-        }).populate("Cliente");
+        }).populate("cliente");
+        console.log(pedidos);
         return pedidos;
       } catch (error) {
         console.log(error);
