@@ -328,7 +328,7 @@ const resolvers = {
         } else {
           //Restar la cantidad a lo disponible
           _producto.existencia = _producto.existencia - articulo.cantidad;
-          await producto.save();
+          await _producto.save();
         }
       }
 
