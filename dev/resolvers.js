@@ -86,7 +86,10 @@ const resolvers = {
 
     obtenerPedidosVendedor: async (_, {}, ctx) => {
       try {
-        const pedidos = await Pedido.find({ vendedor: ctx.usuario.id });
+        const pedidos = await Pedido.find({
+          vendedor: ctx.usuario.id,
+        }).populate("cliente");
+        return pedidos;
       } catch (error) {
         console.log(error);
       }
@@ -222,7 +225,6 @@ const resolvers = {
     actualizarProducto: async (_, { id, input }, ctx) => {
       try {
         let _producto = await producto.findById(id);
-       
 
         if (!_producto) {
           throw new Error("El producto no existe");
@@ -230,7 +232,7 @@ const resolvers = {
 
         _producto = await producto.findOneAndUpdate({ _id: id }, input, {
           new: true,
-         });
+        });
 
         return _producto;
       } catch (error) {
