@@ -355,7 +355,7 @@ const resolvers = {
         }
 
         //si el cliente existe
-        const existeCliente = await Cliente.findById(cliente);
+        const existeCliente = await Clientes.findById(cliente);
         if (!existeCliente) {
           throw new Error("El cliente no existe");
         }
@@ -365,22 +365,27 @@ const resolvers = {
           throw new Error("No tienes las credenciales");
         }
 
-        //revisar el stock
-        //revisar que el stock esté disponible.
-        for await (const articulo of input.pedido) {
-          const { id } = articulo;
-          const _producto = await producto.findById(id);
+        // Revisar el stock
+        if (input.pedido) {
+          for await (const articulo of input.pedido) {
+            const { id } = articulo;
 
-          if (articulo.cantidad > _producto.existencia) {
-            throw new Error(
-              `El artículo ${_producto.nombre} excede la cantidad disponible`
-            );
-          } else {
-            //Restar la cantidad a lo disponible
-            _producto.existencia = _producto.existencia - articulo.cantidad;
-            await producto.save();
+            const producto = await Producto.findById(id);
+
+            if (articulo.cantidad > producto.existencia) {
+              throw new Error(
+                `El articulo: ${producto.nombre} excede la cantidad disponible`
+              );
+            } else {
+              // Restar la cantidad a lo disponible
+              producto.existencia = producto.existencia - articulo.cantidad;
+
+              await producto.save();
+            }
           }
         }
+
+        
 
         //guardar el pedido modificado.
         const resultado = await Pedido.findOneAndUpdate({ _id: id }, input, {
